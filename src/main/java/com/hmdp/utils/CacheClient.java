@@ -80,7 +80,7 @@ public class CacheClient {
         return r;
     }
 
-    //缓存穿透 逻辑过期解决，AP
+    //缓存击穿逻辑过期解决，AP
     public <R, ID> R queryWithLogicExpire(
             String keyPrefix, ID id, Class<R> type, Function<ID, R> dbFallback, Long time, TimeUnit timeUnit) {
         String key = keyPrefix + id;
@@ -120,10 +120,7 @@ public class CacheClient {
                     unLock(locoKey);
                 }
             });
-        }else {//7.4 失败，返回过期商铺信息
-            return null;
-        }
-
+        }//7.4 失败，返回过期商铺信
         //8.返回
         return r;
     }
